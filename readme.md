@@ -1,3 +1,2 @@
-# Just another Django Blog
-
-- second change
+# kpblog
+Another django blog
