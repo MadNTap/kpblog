@@ -1,0 +1,2 @@
+# kpblog
+Another django blog
