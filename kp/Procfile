@@ -1,0 +1,1 @@
+web: gunicorn kp.wsgi --log-file -

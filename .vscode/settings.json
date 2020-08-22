@@ -1,0 +1,11 @@
+{
+    "python.pythonPath": "/Users/clem/.local/share/virtualenvs/kpblog-1hdvxR9Y/bin/python",
+    "eslint.enable": false,
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true,
+    "python.linting.flake8Args": [
+      "--ignore=E303, F541, F841, W293, E128, E402, E999, E121, F401, F403, E501, E302, W391, W291, W292, E111"
+    ],
+    "emmet.triggerExpansionOnTab": true
+}
