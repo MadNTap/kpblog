@@ -26,7 +26,7 @@ SECRET_KEY = '5)n%s4(s&!ypw(!)ukr%l8(mc2$)!wf3($thnuopv_!&q+&yva'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['floating-brushlands-40012.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['floating-brushlands-40012.herokuapp.com', '127.0.0.1:8000']
 
 
 # Application definition
@@ -128,7 +128,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIR = [os.path.join(BASE_DIR, 'static')]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
