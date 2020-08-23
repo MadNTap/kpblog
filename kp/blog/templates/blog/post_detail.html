@@ -17,11 +17,20 @@
         <br />
         <hr />
         <form action="{% url 'like-post' post.pk %}" method="POST">
-            {% csrf_token %}
+            {% csrf_token %} {% if liked %}
+            <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-danger btn-sm">
+                Unlike
+            </button>
             <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-sm">
                 <span>{{ total_likes }}</span>
-                {% if object.likes < 1 %} Likes {% else %} Like {% endif %}
+                {% if total_likes < 2 %} Like {% else %} Likes {% endif %}
             </button>
+            {% else %}
+            <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-sm">
+                <span>{{ total_likes }}</span>
+                {% if total_likes < 1 %} Like {% else %} Likes {% endif %}
+            </button>
+            {% endif %}
         </form>
     </div>
 </article>
