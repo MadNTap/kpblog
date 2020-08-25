@@ -46,7 +46,7 @@ class PostListView(ListView):
     model = Post
     template_name = 'blog/home.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
-    ordering = ['-date_posted']
+    ordering = ['-published']
     paginate_by = 5
 
 
@@ -58,16 +58,16 @@ class UserPostListView(ListView):
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Post.objects.filter(author=user).order_by('-date_posted')
+        return Post.objects.filter(author=user).order_by('-published')
 
 
 class PostDetailView(DetailView):
     model = Post    
     
-    
     def get_context_data(self, *args, **kwargs):
         context = super(PostDetailView, self).get_context_data(*args, **kwargs)
-        post_content = get_object_or_404(Post, id=self.kwargs['pk'])
+        # slug = self.kwargs['slug']
+        post_content = get_object_or_404(Post, slug=self.kwargs['slug'])
         total_likes = post_content.total_likes()
 
         liked = False
