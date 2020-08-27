@@ -1,8 +1,10 @@
+from tinymce.models import HTMLField
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.template.defaultfilters import slugify
+# from ckeditor.fields import RichTextField
 
 
 # Categories 
@@ -54,7 +56,9 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, unique=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default="financial accounting")
-    content = models.TextField()
+    content = HTMLField()
+    # content = RichTextField(blank=True, null=True)
+    # content = models.TextField()
     status = models.CharField(max_length=9, choices=STATUS_CHOICES, default='draft')
     published = models.DateTimeField(default=timezone.now)
     post_created = models.DateTimeField(auto_now_add=True)

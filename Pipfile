@@ -10,11 +10,11 @@ flake8 = "*"
 django = "*"
 pillow = "*"
 django-crispy-forms = "*"
-django-summernote = "*"
 dj-database-url = "*"
 whitenoise = "*"
 gunicorn = "*"
 psycopg2-binary = "*"
+django-tinymce = "*"
 
 [requires]
 python_version = "3.8"

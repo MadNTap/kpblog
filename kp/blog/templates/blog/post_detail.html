@@ -24,7 +24,7 @@
             {% endif %}
         </div>
         <h2 class="article-title">{{ object.title }}</h2>
-        <p class="article-content">{{ object.content }}</p>
+        <p class="article-content">{{ object.content |safe }}</p>
         <br />
         <hr />
         <form action="{% url 'like-post' post.pk %}" method="POST">

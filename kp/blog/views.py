@@ -15,7 +15,6 @@ from django.views.generic import (
 )
 
 from .models import Post, Category
-from .forms import NewBlogPost
 
 def home(request):
     context = {

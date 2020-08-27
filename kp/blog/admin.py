@@ -1,13 +1,11 @@
 from django.contrib import admin
-from django_summernote.admin import SummernoteModelAdmin
 from .models import Post, Category
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
     prepopulated_fields = {'slug': ('name',)}
 
-class PostAdmin(SummernoteModelAdmin):  # instead of ModelAdmin
-    summernote_fields = '__all__'
+class PostAdmin(admin.ModelAdmin):  # instead of ModelAdmin
     prepopulated_fields = {'slug': ('title',)}
 
 
