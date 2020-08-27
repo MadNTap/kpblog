@@ -14,12 +14,13 @@ from django.views.generic import (
     DeleteView
 )
 
-from .models import Post
+from .models import Post, Category
 from .forms import NewBlogPost
 
 def home(request):
     context = {
-        'posts': Post.objects.all()
+        'posts': Post.objects.all(),
+        'category': Category.object.all()
     }
 
     # query = ""
@@ -49,7 +50,6 @@ class PostListView(ListView):
     ordering = ['-published']
     paginate_by = 5
 
-
 class UserPostListView(ListView):
     model = Post
     template_name = 'blog/user_posts.html'  # <app>/<model>_<viewtype>.html
@@ -60,14 +60,12 @@ class UserPostListView(ListView):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return Post.objects.filter(author=user).order_by('-published')
 
-
 class PostDetailView(DetailView):
     model = Post    
     
-    
     def get_context_data(self, *args, **kwargs):
         context = super(PostDetailView, self).get_context_data(*args, **kwargs)
-        post_content = get_object_or_404(Post, id=self.kwargs['pk'])
+        post_content = get_object_or_404(Post, slug=self.kwargs['slug'])
         total_likes = post_content.total_likes()
 
         liked = False
@@ -78,10 +76,31 @@ class PostDetailView(DetailView):
         context['liked'] = liked
         return context
 
+class CategoryPostView(ListView):
+    model = Post
+    template_name = 'blog/category_posts.html'  # <app>/<model>_<viewtype>.html
+    context_object_name = 'posts'
+    paginate_by = 5
+
+    def get_queryset(self):
+        category = get_object_or_404(Category, slug=self.kwargs.get('slug'))
+        return Post.objects.filter(category=category).order_by('-published')
+
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
+    template_name = 'blog/post_form.html'
     fields = ['title', 'category', 'content']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class CategoryCreateView(LoginRequiredMixin, CreateView):
+    model = Category
+    template_name = 'blog/category_form.html'
+    fields = ['name', ]
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -90,7 +109,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'category', 'content']
 
     def form_valid(self, form):
         form.instance.author = self.request.user

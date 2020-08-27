@@ -18,9 +18,33 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('category-posts', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):  # new
+        if not self.slug:
+            self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
+
+    # def get_absolute_url(self):
+    #     return reverse('category-posts', kwargs={'category_slug': self.slug})
+
+    # def save(self, *args, **kwargs):
+    #     original_slug = slugify(self.name)
+    #     queryset = Category.objects.all().filter(slug__iexact=original_slug).count()
+
+    #     count = 1
+    #     slug = original_slug
+    #     while(queryset):
+    #         slug = original_slug + '-' + str(count)
+    #         count += 1
+    #         queryset = Category.objects.all().filter(slug__iexact=slug).count()
+
+    #     super(Category, self).save(*args, **kwargs)
     
-    def get_absoulte_url(self):
-        return reverse('home')
+    # def get_absoulte_url(self):
+    #     return reverse('home', kwargs={'slug': self.slug})
 
 class Post(models.Model):
     STATUS_CHOICES = (
@@ -28,7 +52,8 @@ class Post(models.Model):
         ('published', 'Published')
     )
     title = models.CharField(max_length=100)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, default="fin acc")
+    slug = models.SlugField(max_length=100, unique=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default="financial accounting")
     content = models.TextField()
     status = models.CharField(max_length=9, choices=STATUS_CHOICES, default='draft')
     published = models.DateTimeField(default=timezone.now)
@@ -45,7 +70,7 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('post-detail', kwargs={'pk': self.pk})
+        return reverse('post-detail', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
         original_slug = slugify(self.title)

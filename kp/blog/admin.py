@@ -8,7 +8,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class PostAdmin(SummernoteModelAdmin):  # instead of ModelAdmin
     summernote_fields = '__all__'
+    prepopulated_fields = {'slug': ('title',)}
 
 
 admin.site.register(Post, PostAdmin)
-admin.site.register(Category)
+admin.site.register(Category, CategoryAdmin)

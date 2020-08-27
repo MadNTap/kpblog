@@ -3,12 +3,23 @@
     <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}" />
     <div class="media-body">
         <div class="article-metadata">
-            <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
-            <small class="text-muted">{{ object.published|date:"F d, Y" }}</small>
+            <div class="row ml-1">
+                <small>
+                    <a href="{% url 'category-posts' post.category %}">{{ post.category }} </a>-
+                    <span>
+                        Posted by
+                        <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                    </span>
+                    <p>{{ post.published|date:"F d, Y" }}</p>
+                </small>
+                <div class="text-right ml-auto mr-3">
+                    <a class="btn btn-primary btn-sm mt-1 mb-1" href="{% url 'user-posts' post.category %}">+ Join</a>
+                </div>
+            </div>
             {% if object.author == user %}
             <div>
-                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
-                <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.slug %}">Update</a>
+                <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.slug %}">Delete</a>
             </div>
             {% endif %}
         </div>
@@ -18,9 +29,7 @@
         <hr />
         <form action="{% url 'like-post' post.pk %}" method="POST">
             {% csrf_token %} {% if liked %}
-            <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-danger btn-sm">
-                Unlike
-            </button>
+            <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-danger btn-sm">Unlike</button>
             <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-sm">
                 <span>{{ total_likes }}</span>
                 {% if total_likes < 2 %} Like {% else %} Likes {% endif %}
@@ -31,7 +40,7 @@
                 {% if total_likes < 1 %} Like {% else %} Likes {% endif %}
             </button>
             {% endif %}
-          </form>
+        </form>
     </div>
 </article>
 {% endblock content %}
