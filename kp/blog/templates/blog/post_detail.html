@@ -24,7 +24,7 @@
             {% endif %}
         </div>
         <h2 class="article-title">{{ object.title }}</h2>
-        <p class="article-content">{{ object.content | safe }}</p>
+        <p class="article-content">{{ object.content|safe }}</p>
         <br />
         <hr />
         <form action="{% url 'like-post' post.pk %}" method="POST">
@@ -41,23 +41,17 @@
             </button>
             {% endif %}
         </form>
-        <br>
-        <hr>
+        <br />
+        <hr />
         <h2>Comments...</h2>
-        {% if not post.author.comments.all%}
-            No Comments Yet...<a href="#">Comment</a>
-        {% else %}
-            {% for comment in post.comments.all %}
-                <strong>
-                    {{ comment.name }} - 
-                    {{ comment.date_added }}
-                </strong>
-                <br>
-                {{ comment.body }}
-                <br>
-                <hr>
-            {% endfor %}
-        {% endif %}
+        {% if not post.author.comments.all%} No Comments Yet...<a href="#">Comment</a>
+        {% else %} {% for comment in post.comments.all %}
+        <strong> {{ comment.name }} - {{ comment.date_added }} </strong>
+        <br />
+        {{ comment.body }}
+        <br />
+        <hr />
+        {% endfor %} {% endif %}
     </div>
 </article>
 {% endblock content %}

@@ -23,4 +23,4 @@ urlpatterns = [
     path('category/<slug>/', CategoryPostView.as_view(), name='category-posts'),
     path('about/', views.about, name='blog-about'),
     path('like/<int:pk>', LikeView, name="like-post")
-]
+] 
